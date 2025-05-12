@@ -1,0 +1,73 @@
+version: "3.10"
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Streamlit_Frontend/Dockerfile
+    image: frontend:latest
+    ports:
+      - 8501:8501
+    networks:
+      - project_network
+    depends_on:
+      - backend
+    volumes:
+      - ./Streamlit_Frontend:/app/backend
+
+
+  backend:
+    build:
+      context: .
+      dockerfile: FastAPI_Backend/Dockerfile
+    image: backend:latest
+    ports:
+      - 8080:8080
+    networks:
+      - project_network
+networks:
+  project_network:
+
+
+# # version: "3.10"
+
+# services:
+#   frontend:
+#     build:
+#       context: .
+#       dockerfile: Streamlit_Frontend/Dockerfile
+#     image: frontend:latest
+#     ports:
+#       - 8501:8501
+#     networks:
+#       - project_network
+#     depends_on:
+#       - backend
+#     volumes:
+#       - ./Streamlit_Frontend:/app/backend  # Mount the frontend directory
+
+#   backend:
+#     build:
+#       context: .
+#       dockerfile: FastAPI_Backend/Dockerfile
+#     image: backend:latest
+#     ports:
+#       - 8080:8080
+#     networks:
+#       - project_network
+#     # depends_on:
+#     #   - sqlite_data
+#     volumes:
+#       - ./FastAPI_Backend:/app  # Mount the backend directory
+#       - sqlite_data:/app/Streamlit_Frontend/auth/diet_recommendation.db  # Mount SQLite volume for persistence
+
+#   # sqlite_data:
+#   #   image: nouchka/sqlite  # Use a suitable SQLite image or configure your own if necessary
+#   #   volumes:
+#   #     - sqlite_data:/app/Streamlit_Frontend/auth/diet_recommendation.db  # This will store SQLite data persistently
+
+# networks:
+#   project_network:
+
+# volumes:
+#   sqlite_data:  # This volume will store the SQLite database persistently
